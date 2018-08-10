@@ -82,21 +82,21 @@ public class DogControllerTest {
         Assert.assertEquals(dogController.getWalker(1L).getStatusCode(), HttpStatus.OK);
     }
 
-    class DogRepositoryMock implements DogRepository{
+    class DogRepositoryMock implements DogRepository {
 
         public List<Dog> dogs;
 
-        public DogRepositoryMock(List<Dog> walkers) {
-            this.dogs = walkers;
+        public DogRepositoryMock(List<Dog> dogs) {
+            this.dogs = dogs;
         }
 
         public Long getMaxId() {
             return dogs.get(dogs.size()-1).getId();
         }
 
-        public Integer findIndexOf(Dog walker) {
+        public Integer findIndexOf(Dog dog) {
             for(int i = 0; i < dogs.size(); i++) {
-                if (walker.getId() == dogs.get(i).getId()) {
+                if (dog.getId() == dogs.get(i).getId()) {
                     return i;
                 }
             }
@@ -123,9 +123,9 @@ public class DogControllerTest {
 
         @Override
         public Optional<Dog> findById(Long aLong) {
-            for(Dog walker : dogs) {
-                if (walker.getId() == aLong) {
-                    return Optional.of(walker);
+            for(Dog dog : dogs) {
+                if (dog.getId() == aLong) {
+                    return Optional.of(dog);
                 }
             }
             return Optional.empty();
@@ -133,8 +133,8 @@ public class DogControllerTest {
 
         @Override
         public boolean existsById(Long aLong) {
-            for(Dog walker : dogs) {
-                if (walker.getId().equals(aLong)) {
+            for(Dog dog : dogs) {
+                if (dog.getId().equals(aLong)) {
                     return true;
                 }
             }
@@ -158,10 +158,10 @@ public class DogControllerTest {
 
         @Override
         public void deleteById(Long aLong) {
-            Dog walker = new Dog();
-            walker.setId(aLong);
+            Dog dog = new Dog();
+            dog.setId(aLong);
 
-            Integer index = findIndexOf(walker);
+            Integer index = findIndexOf(dog);
 
             if (index != -1) {
                 dogs.remove((int)index);
@@ -169,7 +169,7 @@ public class DogControllerTest {
         }
 
         @Override
-        public void delete(Dog walker) {
+        public void delete(Dog dog) {
 
         }
 
